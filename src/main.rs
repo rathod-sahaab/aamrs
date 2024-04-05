@@ -3,7 +3,7 @@
 use dioxus::prelude::*;
 use log::LevelFilter;
 
-pub mod types;
+pub mod resources;
 
 #[derive(Clone, Routable, Debug, PartialEq)]
 enum Route {
