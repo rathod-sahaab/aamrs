@@ -1,12 +1,13 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, PartialEq, Eq, Debug)]
-pub struct AamrsProject {
-    pub name: String,
-    pub location: String,
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq)]
+pub enum Theme {
+    Dark,
+    Light,
+    System,
 }
 
-#[derive(Serialize, Deserialize, Default, PartialEq, Eq, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub struct AamrsConfig {
-    pub projects: Vec<AamrsProject>,
+    pub theme_mode: Theme,
 }

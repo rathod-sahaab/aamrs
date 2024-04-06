@@ -5,6 +5,7 @@ use log::LevelFilter;
 
 pub mod files;
 pub mod resources;
+pub mod test_utils;
 
 #[derive(Clone, Routable, Debug, PartialEq)]
 enum Route {
