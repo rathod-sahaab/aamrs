@@ -3,6 +3,7 @@
 use dioxus::prelude::*;
 use log::LevelFilter;
 
+pub mod files;
 pub mod resources;
 
 #[derive(Clone, Routable, Debug, PartialEq)]

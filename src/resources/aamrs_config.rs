@@ -1,12 +1,12 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, PartialEq, Eq, Debug)]
 pub struct AamrsProject {
-    name: String,
-    location: String,
+    pub name: String,
+    pub location: String,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Default, PartialEq, Eq, Debug)]
 pub struct AamrsConfig {
     pub projects: Vec<AamrsProject>,
 }
