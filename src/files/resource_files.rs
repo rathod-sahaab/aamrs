@@ -40,7 +40,7 @@ mod tests {
 
     #[test]
     fn test_load_state_should_return_default_when_not_found() {
-        let state_path = test_file_path("state.json");
+        let state_path = test_file_path("empty-state.json");
         let state: AamrsState = parse_resource_from_path(state_path);
 
         assert_eq!(state, AamrsState::default())

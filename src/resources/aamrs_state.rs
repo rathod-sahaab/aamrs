@@ -1,5 +1,8 @@
+use std::path::PathBuf;
 
 use serde::{Deserialize, Serialize};
+
+use crate::{files::paths::get_config_path, traits::file_path::FilePath};
 
 #[derive(Serialize, Deserialize, PartialEq, Eq, Debug)]
 pub struct AamrsProject {
@@ -10,4 +13,13 @@ pub struct AamrsProject {
 #[derive(Serialize, Deserialize, Default, PartialEq, Eq, Debug)]
 pub struct AamrsState {
     pub projects: Vec<AamrsProject>,
+}
+
+impl FilePath for AamrsState {
+    fn filepath() -> std::path::PathBuf {
+        if let Some(config_dir) = get_config_path() {
+            return config_dir.join("state.json");
+        }
+        PathBuf::from("./state.json")
+    }
 }
