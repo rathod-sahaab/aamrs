@@ -15,6 +15,12 @@ pub struct AamrsState {
     pub projects: Vec<AamrsProject>,
 }
 
+impl AamrsState {
+    pub fn add_project(&mut self, aamrs_project: AamrsProject) {
+        self.projects.push(aamrs_project)
+    }
+}
+
 impl FilePath for AamrsState {
     fn filepath() -> std::path::PathBuf {
         if let Some(config_dir) = get_config_path() {
