@@ -2,9 +2,8 @@ use std::collections::BTreeMap;
 
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Clone)]
 pub struct Environment {
-    pub name: String,
     pub values: BTreeMap<String, String>,
 }
 
@@ -18,7 +17,6 @@ mod tests {
     #[test]
     fn test_deserialize() {
         let test_env = Environment {
-            name: "local".to_string(),
             values: BTreeMap::from([
                 (
                     String::from("URL"),
@@ -41,7 +39,6 @@ mod tests {
     #[test]
     fn test_serialize() {
         let control_env = Environment {
-            name: "local".to_string(),
             values: BTreeMap::from([
                 (
                     String::from("URL"),
@@ -63,7 +60,6 @@ mod tests {
     #[test]
     fn test_get_value_from_environment() {
         let control_env = Environment {
-            name: "local".to_string(),
             values: BTreeMap::from([
                 (
                     String::from("URL"),
