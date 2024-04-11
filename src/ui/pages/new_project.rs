@@ -9,8 +9,6 @@ use crate::STATE;
 
 #[component]
 pub fn NewProject() -> Element {
-    let state = &*STATE;
-
     let mut loading = use_signal(|| false);
 
     let nav = navigator();
@@ -56,7 +54,11 @@ pub fn NewProject() -> Element {
                 button {
                     class: "btn btn-primary",
                     onclick: move |_| {
-                        state.save_state();
+                        (*STATE.write()).add_project(AamrsProject {
+                            name: project_name(),
+                            location: project_directory(),
+                        });
+                        (*STATE.write()).save_state();
                         nav.replace(Route::Home {});
                     },
                     "Create Project"

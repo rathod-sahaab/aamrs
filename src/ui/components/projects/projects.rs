@@ -5,11 +5,9 @@ use crate::STATE;
 #[component]
 pub fn Projects() -> Element {
     // TODO: get from lazy static
-    let state = &*STATE;
-
     return rsx!(
         ul {
-            for project in &state.projects {
+            for project in STATE.read().projects.iter() {
                 li {
                     span {
                         class: "tooltip tooltip-right",
