@@ -1,19 +1,26 @@
 #![allow(non_snake_case)]
 
 use dioxus::prelude::*;
-use files::{config::load_config, state::load_state};
 use log::LevelFilter;
-
-use crate::files::{config::save_config, state::save_state};
+use resources::aamrs_config::AamrsConfig;
+use resources::aamrs_state::AamrsState;
 
 use ui::pages::home::home::Home;
 use ui::pages::new_project::NewProject;
+
+#[macro_use]
+extern crate lazy_static;
 
 pub mod files;
 pub mod resources;
 pub mod test_utils;
 pub mod traits;
 pub mod ui;
+
+lazy_static! {
+    pub static ref CONFIG: AamrsConfig = AamrsConfig::load_config();
+    pub static ref STATE: AamrsState = AamrsState::load_state();
+}
 
 #[derive(Clone, Routable, Debug, PartialEq)]
 enum Route {
@@ -24,14 +31,11 @@ enum Route {
 }
 
 fn main() {
-    let config = load_config();
-    let state = load_state();
+    println!("{:?}", *CONFIG);
+    println!("{:?}", *STATE);
 
-    println!("{:?}", config);
-    println!("{:?}", state);
-
-    save_config(&config);
-    save_state(&state);
+    // save_config(&CONFIG);
+    // save_state(&STATE);
     // Init debug
     dioxus_logger::init(LevelFilter::Info).expect("failed to init logger");
     let cfg = dioxus::desktop::Config::new()

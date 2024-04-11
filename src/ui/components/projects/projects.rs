@@ -1,21 +1,23 @@
 use dioxus::prelude::*;
 
-use crate::files::state::load_state;
+use crate::STATE;
 
 #[component]
 pub fn Projects() -> Element {
     // TODO: get from lazy static
-    let state = load_state();
+    let state = &*STATE;
 
-    return rsx!(ul {
-        for project in state.projects {
-            li {
-                span {
-                    class: "tooltip tooltip-right",
-                    "data-tip":"{project.location}",
-                    "{project.name}"
-                },
+    return rsx!(
+        ul {
+            for project in &state.projects {
+                li {
+                    span {
+                        class: "tooltip tooltip-right",
+                        "data-tip": "{project.location}",
+                        "{project.name}"
+                    }
+                }
             }
         }
-    });
+    );
 }
