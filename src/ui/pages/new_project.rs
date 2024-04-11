@@ -7,6 +7,7 @@ use crate::files::state::{load_state, save_state};
 use crate::resources::aamrs_state::AamrsProject;
 use crate::Route;
 
+#[component]
 pub fn NewProject() -> Element {
     let mut state = load_state();
 

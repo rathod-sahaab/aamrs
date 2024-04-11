@@ -6,6 +6,7 @@ use log::LevelFilter;
 
 use crate::files::{config::save_config, state::save_state};
 
+use ui::pages::home::home::Home;
 use ui::pages::new_project::NewProject;
 
 pub mod files;
@@ -18,8 +19,6 @@ pub mod ui;
 enum Route {
     #[route("/")]
     Home {},
-    #[route("/blog/:id")]
-    Blog { id: i32 },
     #[route("/projects/new")]
     NewProject,
 }
@@ -44,37 +43,5 @@ fn main() {
 fn App() -> Element {
     rsx! {
         Router::<Route> {}
-    }
-}
-
-#[component]
-fn Blog(id: i32) -> Element {
-    rsx! {
-        Link { to: Route::Home {}, "Go to counter" }
-        "Blog post {id}"
-    }
-}
-
-#[component]
-fn Home() -> Element {
-    let mut count = use_signal(|| 0);
-
-    rsx! {
-        Link {
-            to: Route::Blog {
-                id: count()
-            },
-            "Go to blog"
-        }
-        Link {
-            to: Route::NewProject {},
-            class: "btn btn-primary",
-            "Create a new project"
-        }
-        div {
-            h1 { "High-Five counter: {count}" }
-            button { class: "btn btn-primary", onclick: move |_| count += 1, "Up high!" }
-            button { class: "btn", onclick: move |_| count -= 1, "Down low!" }
-        }
     }
 }
