@@ -1,4 +1,5 @@
 use dioxus::prelude::*;
+use dioxus_free_icons::icons::io_icons::IoClose;
 use dioxus_free_icons::icons::io_icons::IoFolder;
 use dioxus_free_icons::Icon;
 
@@ -62,8 +63,17 @@ pub fn NewProject() -> Element {
                         nav.replace(Route::Home {  });
                     },
                     "Create Project",
-                }
-            }
+                },
+            },
+            button {
+                class: "absolute btn btn-circle top-8 right-8",
+                onclick: move |_| {
+                    nav.replace(Route::Home{});
+                },
+                Icon {
+                    icon: IoClose
+                },
+            },
         }
     }
 }

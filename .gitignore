@@ -14,3 +14,6 @@ Cargo.lock
 
 # generated and tempfiles
 /temp/
+
+node_modules/
+
