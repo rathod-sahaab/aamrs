@@ -5,8 +5,8 @@ use log::LevelFilter;
 use resources::aamrs_config::AamrsConfig;
 use resources::aamrs_state::AamrsState;
 
-use ui::pages::home::home::Home;
-use ui::pages::new_project::NewProject;
+use ui::pages::Home;
+use ui::pages::NewProject;
 
 pub mod files;
 pub mod resources;
@@ -35,5 +35,7 @@ fn main() {
 #[component]
 fn App() -> Element {
     println!("{:?}", *CONFIG.read());
-    rsx! { Router::<Route> {} }
+    rsx! {
+        Router::<Route> {}
+    }
 }

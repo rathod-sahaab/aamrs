@@ -1,1 +1,3 @@
-pub mod projects;
+mod projects;
+
+pub use projects::*;

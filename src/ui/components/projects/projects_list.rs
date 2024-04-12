@@ -3,7 +3,7 @@ use dioxus::prelude::*;
 use crate::STATE;
 
 #[component]
-pub fn Projects() -> Element {
+pub fn ProjectsList() -> Element {
     // TODO: get from lazy static
     return rsx!(
         ul {

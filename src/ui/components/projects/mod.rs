@@ -1,1 +1,4 @@
-pub mod projects;
+pub use self::projects_list::*;
+
+mod projects_list;
+mod project;

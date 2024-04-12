@@ -1,2 +1,5 @@
-pub mod home;
-pub mod new_project;
+pub use home::Home;
+pub use new_project::NewProject;
+
+mod home;
+mod new_project;
