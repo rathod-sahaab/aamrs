@@ -1,20 +1,14 @@
 use dioxus::prelude::*;
 
-use crate::STATE;
+use crate::{ui::components::projects::project::Project, STATE};
 
 #[component]
 pub fn ProjectsList() -> Element {
     // TODO: get from lazy static
     return rsx!(
-        ul {
+        ul { class: "flex flex-col",
             for project in STATE.read().projects.iter() {
-                li {
-                    span {
-                        class: "tooltip tooltip-right",
-                        "data-tip": "{project.location}",
-                        "{project.name}"
-                    }
-                }
+                Project { name: project.name.clone(), location: project.location.clone() }
             }
         }
     );

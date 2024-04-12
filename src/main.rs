@@ -5,6 +5,7 @@ use log::LevelFilter;
 use resources::aamrs_config::AamrsConfig;
 use resources::aamrs_state::AamrsState;
 
+use ui::layouts::HomeLayout;
 use ui::pages::Home;
 use ui::pages::NewProject;
 
@@ -19,8 +20,9 @@ static STATE: GlobalSignal<AamrsState> = Signal::global(AamrsState::load_state);
 
 #[derive(Clone, Routable, Debug, PartialEq)]
 enum Route {
-    #[route("/")]
-    Home {},
+    #[layout(HomeLayout)]
+        #[route("/")]
+        Home {},
     #[route("/projects/new")]
     NewProject,
 }
