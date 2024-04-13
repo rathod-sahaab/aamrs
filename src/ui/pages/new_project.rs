@@ -1,8 +1,11 @@
+use std::path::PathBuf;
+
 use dioxus::prelude::*;
 use dioxus_free_icons::icons::io_icons::IoClose;
 use dioxus_free_icons::icons::io_icons::IoFolder;
 use dioxus_free_icons::Icon;
 
+use crate::files::folders::checkNewProjectFolder;
 use crate::resources::aamrs_state::AamrsProject;
 use crate::Route;
 use crate::STATE;
@@ -14,6 +17,7 @@ pub fn NewProject() -> Element {
     let nav = navigator();
 
     let mut project_directory = use_signal(|| "".to_string());
+    let mut project_directory_error = use_signal::<Option<String>>(|| None);
     let mut project_name = use_signal(|| "".to_string());
     rsx! {
         section { class: "flex items-center justify-center",
@@ -35,7 +39,12 @@ pub fn NewProject() -> Element {
                                 .await
                             {
                                 let pd_string = pd.to_str().unwrap().to_string();
-                                project_directory.set(pd_string)
+                                project_directory.set(pd_string.clone());
+                                if let Err(error) = checkNewProjectFolder(PathBuf::from(pd_string)) {
+                                    project_directory_error.set(Some(error.to_string()));
+                                } else {
+                                    project_directory_error.set(None);
+                                }
                             }
                             loading.set(false);
                         });
@@ -51,8 +60,12 @@ pub fn NewProject() -> Element {
                         "{project_directory}"
                     }
                 }
+                if project_directory_error().is_some() {
+                    span { class: "text-error", "{project_directory_error.unwrap()}" }
+                }
                 button {
                     class: "btn btn-primary",
+                    disabled: project_directory_error().is_some(),
                     onclick: move |_| {
                         (*STATE.write())
                             .add_project(AamrsProject {

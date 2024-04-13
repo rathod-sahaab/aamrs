@@ -23,8 +23,8 @@ enum Route {
     #[route("/projects/new")]
     NewProject,
     #[layout(HomeLayout)]
-        #[route("/")]
-        Home {},
+    #[route("/")]
+    Home {},
 }
 
 fn main() {
