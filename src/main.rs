@@ -20,11 +20,11 @@ static STATE: GlobalSignal<AamrsState> = Signal::global(AamrsState::load_state);
 
 #[derive(Clone, Routable, Debug, PartialEq)]
 enum Route {
+    #[route("/projects/new")]
+    NewProject,
     #[layout(HomeLayout)]
         #[route("/")]
         Home {},
-    #[route("/projects/new")]
-    NewProject,
 }
 
 fn main() {

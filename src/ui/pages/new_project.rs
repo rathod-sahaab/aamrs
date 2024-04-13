@@ -54,10 +54,11 @@ pub fn NewProject() -> Element {
                 button {
                     class: "btn btn-primary",
                     onclick: move |_| {
-                        (*STATE.write()).add_project(AamrsProject {
-                            name: project_name(),
-                            location: project_directory(),
-                        });
+                        (*STATE.write())
+                            .add_project(AamrsProject {
+                                name: project_name(),
+                                location: project_directory(),
+                            });
                         (*STATE.write()).save_state();
                         nav.replace(Route::Home {});
                     },

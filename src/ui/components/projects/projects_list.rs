@@ -1,14 +1,24 @@
 use dioxus::prelude::*;
 
-use crate::{ui::components::projects::project::Project, STATE};
+use crate::{resources::aamrs_state::AamrsProject, ui::components::projects::project::Project, STATE};
 
 #[component]
 pub fn ProjectsList() -> Element {
-    // TODO: get from lazy static
+    // TODO: store project id
+
+    let projects = STATE.read().projects.iter().map(|project| AamrsProject { name: project.name.clone(), location: project.location.clone() }).collect::<Vec<AamrsProject>>();
+
+    let mut activeProject = use_signal(|| Some(projects.first()?.name.clone()));
+
     return rsx!(
-        ul { class: "flex flex-col",
-            for project in STATE.read().projects.iter() {
-                Project { name: project.name.clone(), location: project.location.clone() }
+        ul { class: "flex flex-col space-y-3",
+            for project in projects {
+                Project {
+                    name: project.name.clone(),
+                    location: project.location.clone(),
+                    active: activeProject().is_some() && project.name.eq(&activeProject().unwrap()),
+                    on_click: move |_| { activeProject.set(Some(project.name.clone())) }
+                }
             }
         }
     );
