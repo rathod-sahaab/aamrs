@@ -85,13 +85,6 @@ pub fn NewProject() -> Element {
                 "Create Project"
             }
         }
-        button {
-            class: "absolute btn btn-circle top-8 right-8",
-            onclick: move |_| {
-                nav.replace(Route::Home {});
-            },
-            Icon { icon: IoClose }
-        }
     }
     // }
 }
