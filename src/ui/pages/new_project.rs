@@ -1,29 +1,23 @@
 use std::path::PathBuf;
 
 use dioxus::prelude::*;
-use dioxus_free_icons::icons::io_icons::IoClose;
 use dioxus_free_icons::icons::io_icons::IoFolder;
 use dioxus_free_icons::Icon;
 
 use crate::files::folders::checkNewProjectDirectory;
 use crate::files::setup::createProjectInDirectory;
 use crate::resources::aamrs_state::AamrsProject;
-use crate::Route;
 use crate::STATE;
 
-#[component]
 pub fn NewProject() -> Element {
     let mut loading = use_signal(|| false);
-
-    let nav = navigator();
 
     let mut project_directory = use_signal(|| "".to_string());
     let mut project_directory_error = use_signal::<Option<String>>(|| None);
     let mut project_name = use_signal(|| "".to_string());
+
     rsx! {
-        // section { class: "flex items-center justify-center",
-        div { class: "text-center max-w-md space-y-4 p-8 m-4",
-            h1 { class: "text-2xl font-bold pb-2", "Create a new project" }
+        div { class: "text-center w-full space-y-4",
             input {
                 value: "{project_name}",
                 placeholder: "Project name",
@@ -33,6 +27,7 @@ pub fn NewProject() -> Element {
             }
             button {
                 class: "btn block w-full flex items-center justify-center space-x-2",
+                disabled: loading(),
                 onclick: move |_| {
                     spawn(async move {
                         loading.set(true);
@@ -46,6 +41,8 @@ pub fn NewProject() -> Element {
                             } else {
                                 project_directory_error.set(None);
                             }
+                        } else {
+                            project_directory_error.set(Some("No folder selected".to_string()));
                         }
                         loading.set(false);
                     });
@@ -64,8 +61,9 @@ pub fn NewProject() -> Element {
             if project_directory_error().is_some() {
                 span { class: "text-error", "{project_directory_error.unwrap()}" }
             }
+            div {}
             button {
-                class: "btn btn-primary",
+                class: "btn btn-primary w-full",
                 disabled: project_directory_error().is_some(),
                 onclick: move |_| {
                     if let Err(error) = createProjectInDirectory(
@@ -79,12 +77,10 @@ pub fn NewProject() -> Element {
                                 location: project_directory(),
                             });
                         (*STATE.write()).save_state();
-                        nav.replace(Route::Home {});
                     }
                 },
                 "Create Project"
             }
         }
     }
-    // }
 }

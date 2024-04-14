@@ -10,10 +10,7 @@ pub fn Sidebar() -> Element {
         div { class: "bg-base-200 h-full flex flex-col",
             button {
                 class: "btn btn-accent m-8",
-                onclick: move |_| {
-                    println!("Clicked CNP button");
-                    modal_state.write().open("Create new project".to_string(), NewProject())
-                },
+                onclick: move |_| { modal_state.write().open("Create new project".to_string(), NewProject) },
                 dioxus_free_icons::Icon { icon: IoAddSharp }
                 "Create a new project"
             }
