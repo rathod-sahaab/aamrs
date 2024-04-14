@@ -9,6 +9,9 @@ use ui::layouts::HomeLayout;
 use ui::pages::Home;
 use ui::pages::NewProject;
 
+use crate::ui::components::modal::Modal;
+use crate::ui::components::modal::ModalState;
+
 pub mod files;
 pub mod resources;
 pub mod test_utils;
@@ -36,8 +39,10 @@ fn main() {
 
 #[component]
 fn App() -> Element {
-    println!("{:?}", *CONFIG.read());
+    use_context_provider(|| Signal::new(ModalState::default()));
+
     rsx! {
         Router::<Route> {}
+        Modal {}
     }
 }
