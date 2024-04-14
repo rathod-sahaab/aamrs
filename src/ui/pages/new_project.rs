@@ -5,7 +5,8 @@ use dioxus_free_icons::icons::io_icons::IoClose;
 use dioxus_free_icons::icons::io_icons::IoFolder;
 use dioxus_free_icons::Icon;
 
-use crate::files::folders::checkNewProjectFolder;
+use crate::files::folders::checkNewProjectDirectory;
+use crate::files::setup::createProjectInDirectory;
 use crate::resources::aamrs_state::AamrsProject;
 use crate::Route;
 use crate::STATE;
@@ -40,7 +41,7 @@ pub fn NewProject() -> Element {
                             {
                                 let pd_string = pd.to_str().unwrap().to_string();
                                 project_directory.set(pd_string.clone());
-                                if let Err(error) = checkNewProjectFolder(PathBuf::from(pd_string)) {
+                                if let Err(error) = checkNewProjectDirectory(&PathBuf::from(pd_string)) {
                                     project_directory_error.set(Some(error.to_string()));
                                 } else {
                                     project_directory_error.set(None);
@@ -67,13 +68,19 @@ pub fn NewProject() -> Element {
                     class: "btn btn-primary",
                     disabled: project_directory_error().is_some(),
                     onclick: move |_| {
-                        (*STATE.write())
-                            .add_project(AamrsProject {
-                                name: project_name(),
-                                location: project_directory(),
-                            });
-                        (*STATE.write()).save_state();
-                        nav.replace(Route::Home {});
+                        if let Err(error) = createProjectInDirectory(
+                            PathBuf::from(project_directory()),
+                        ) {
+                            eprintln!("Error creating project: {}", error);
+                        } else {
+                            (*STATE.write())
+                                .add_project(AamrsProject {
+                                    name: project_name(),
+                                    location: project_directory(),
+                                });
+                            (*STATE.write()).save_state();
+                            nav.replace(Route::Home {});
+                        }
                     },
                     "Create Project"
                 }

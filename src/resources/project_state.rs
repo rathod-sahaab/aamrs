@@ -2,9 +2,11 @@ use std::collections::BTreeMap;
 
 use serde::{Deserialize, Serialize};
 
+use crate::traits::file_name::SingletonFileName;
+
 use super::environment::Environment;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Default)]
 pub struct ProjectState {
     pub active_environment: String,
     pub environments: BTreeMap<String, Environment>,
@@ -37,5 +39,11 @@ impl ProjectState {
             .get(&env_name)
             .unwrap_or(&self.default_env)
             .values
+    }
+}
+
+impl SingletonFileName for ProjectState {
+    fn filename() -> String {
+        "project.state.rs".to_string()
     }
 }
