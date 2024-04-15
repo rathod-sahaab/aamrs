@@ -52,6 +52,7 @@ pub fn Modal() -> Element {
                     dioxus_free_icons::Icon { icon: IoClose }
                 }
                 div { class: "p-4 pb-0 min-w-screen-md", Comp {} }
+                // Double Comp {} required I don't know why
                 div { class: "hidden", Comp {} }
             }
         }
