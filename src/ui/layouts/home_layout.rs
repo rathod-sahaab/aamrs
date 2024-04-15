@@ -1,7 +1,5 @@
 use dioxus::prelude::*;
-
 use crate::{ui::layouts::sidebar::Sidebar, Route};
-
 #[component]
 pub fn HomeLayout() -> Element {
     rsx!(

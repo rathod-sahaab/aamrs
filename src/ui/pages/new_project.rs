@@ -1,28 +1,26 @@
 use std::path::PathBuf;
-
 use dioxus::prelude::*;
 use dioxus_free_icons::icons::io_icons::IoFolder;
 use dioxus_free_icons::Icon;
-
 use crate::files::folders::checkNewProjectDirectory;
 use crate::files::setup::createProjectInDirectory;
 use crate::resources::aamrs_state::AamrsProject;
 use crate::STATE;
-
+fn updateState(project: AamrsProject) {
+    (*STATE.write()).add_project(project);
+    (*STATE.write()).save_state();
+}
 pub fn NewProject() -> Element {
     let mut loading = use_signal(|| false);
-
     let mut project_directory = use_signal(|| "".to_string());
     let mut project_directory_error = use_signal::<Option<String>>(|| None);
     let mut project_name = use_signal(|| "".to_string());
-
     rsx! {
         div { class: "text-center w-full space-y-4",
             input {
                 value: "{project_name}",
                 placeholder: "Project name",
                 class: "input input-bordered w-full",
-
                 oninput: move |event| project_name.set(event.value())
             }
             button {
@@ -71,12 +69,10 @@ pub fn NewProject() -> Element {
                     ) {
                         eprintln!("Error creating project: {}", error);
                     } else {
-                        (*STATE.write())
-                            .add_project(AamrsProject {
-                                name: project_name(),
-                                location: project_directory(),
-                            });
-                        (*STATE.write()).save_state();
+                        updateState(AamrsProject {
+                            name: project_name(),
+                            location: project_directory(),
+                        });
                     }
                 },
                 "Create Project"
