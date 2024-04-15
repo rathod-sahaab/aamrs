@@ -22,7 +22,13 @@ pub fn ProjectsList() -> Element {
                     name: project.name.clone(),
                     location: project.location.clone(),
                     active: activeProject().is_some() && project.name.eq(&activeProject().unwrap()),
-                    on_click: move |_| { activeProject.set(Some(project.name.clone())) }
+                    on_click: move |_| {
+                        if activeProject().is_none() {
+                            activeProject.set(Some(project.name.clone()))
+                        } else {
+                            activeProject.set(None)
+                        }
+                    }
                 }
             }
         }

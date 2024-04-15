@@ -5,6 +5,7 @@ use dioxus_free_icons::Icon;
 use crate::files::folders::checkNewProjectDirectory;
 use crate::files::setup::createProjectInDirectory;
 use crate::resources::aamrs_state::AamrsProject;
+use crate::ui::components::modal::ModalState;
 use crate::STATE;
 fn updateState(project: AamrsProject) {
     (*STATE.write()).add_project(project);
@@ -15,6 +16,9 @@ pub fn NewProject() -> Element {
     let mut project_directory = use_signal(|| "".to_string());
     let mut project_directory_error = use_signal::<Option<String>>(|| None);
     let mut project_name = use_signal(|| "".to_string());
+
+    let mut modal_state = consume_context::<Signal<ModalState>>();
+
     rsx! {
         div { class: "text-center w-full space-y-4",
             input {
@@ -73,6 +77,7 @@ pub fn NewProject() -> Element {
                             name: project_name(),
                             location: project_directory(),
                         });
+                        modal_state.write().close();
                     }
                 },
                 "Create Project"

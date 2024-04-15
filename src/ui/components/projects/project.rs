@@ -1,7 +1,7 @@
 use dioxus::prelude::*;
 use dioxus_free_icons::icons::{
     fi_icons::{FiChevronDown, FiChevronRight},
-    io_icons::{IoAddSharp, IoEllipsisVertical},
+    io_icons::IoEllipsisVertical,
 };
 use crate::ui::components::projects::project_contents::ProjectContents;
 #[derive(Props, Clone, PartialEq)]
