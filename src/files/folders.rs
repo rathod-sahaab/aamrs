@@ -1,5 +1,5 @@
-use std::path::Path;
-pub fn checkNewProjectDirectory(directory: &Path) -> Result<(), String> {
+use std::{fs, path::Path};
+pub fn check_new_project_directory(directory: &Path) -> Result<(), String> {
     if !directory.is_dir() {
         return Err("Not a directory.".to_string());
     }
@@ -12,53 +12,58 @@ pub fn checkNewProjectDirectory(directory: &Path) -> Result<(), String> {
     }
     Ok(())
 }
-
+pub fn create_empty_directory(path: &Path, dir_name: String) -> Result<(), String> {
+    if !path.is_dir() {
+        return Err("Not a directory.".to_string());
+    }
+    if fs::create_dir(path.join(dir_name)).is_err() {
+        return Err("Failed to create directory.".to_string());
+    }
+    Ok(())
+}
 #[cfg(test)]
 mod tests {
-    use std::{fs, path::{Path, PathBuf}};
-
+    use std::{fs, path::PathBuf};
     use anyhow::Result;
     use tempfile::tempdir;
-
-    use super::checkNewProjectDirectory;
+    use super::{check_new_project_directory, create_empty_directory};
 
     #[test]
-    fn empty_dir_is_valid()-> Result<()> {
+    fn empty_dir_is_valid() -> Result<()> {
         let empty_dir = tempdir()?;
-
-        let check_result = checkNewProjectDirectory(empty_dir.path());
-        
+        let check_result = check_new_project_directory(empty_dir.path());
         assert!(check_result.is_ok());
-
         Ok(())
     }
 
     #[test]
-    fn non_empty_dir_is_invalid()-> Result<()> {
+    fn non_empty_dir_is_invalid() -> Result<()> {
         let dir = tempdir()?;
-
         let file_path = dir.path().join("my-temporary-note.txt");
         fs::write(file_path, "Brian was here. Briefly.")?;
-
-        let check_result = checkNewProjectDirectory(dir.path());
-        
+        let check_result = check_new_project_directory(dir.path());
         assert!(check_result.is_err());
-
         Ok(())
     }
 
     #[test]
-    fn non_existant_dir_is_invalid() ->Result<()> {
+    fn non_existant_dir_is_invalid() -> Result<()> {
         let dir = tempdir()?;
-
         let dir_path = PathBuf::from(dir.path());
-
         let _ = dir.close();
-
-        let check_result = checkNewProjectDirectory(&dir_path);
-        
+        let check_result = check_new_project_directory(&dir_path);
         assert!(check_result.is_err());
+        Ok(())
+    }
 
+    #[test]
+    fn create_dir_in_empty_dir() -> Result<()> {
+        let dir = tempdir()?;
+        let dir_path = PathBuf::from(dir.path());
+        let sub_dir = create_empty_directory(&dir_path, "temporary".to_string());
+        assert!(sub_dir.is_ok());
+        let read_dir = fs::read_dir(dir_path.join("temporary"));
+        assert!(read_dir.is_ok());
         Ok(())
     }
 }

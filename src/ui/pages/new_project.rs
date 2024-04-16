@@ -2,8 +2,8 @@ use std::path::PathBuf;
 use dioxus::prelude::*;
 use dioxus_free_icons::icons::io_icons::IoFolder;
 use dioxus_free_icons::Icon;
-use crate::files::folders::checkNewProjectDirectory;
-use crate::files::setup::createProjectInDirectory;
+use crate::files::folders::check_new_project_directory;
+use crate::files::setup::create_project_in_directory;
 use crate::resources::aamrs_state::AamrsProject;
 use crate::ui::components::modal::ModalState;
 use crate::STATE;
@@ -38,7 +38,9 @@ pub fn NewProject() -> Element {
                         {
                             let pd_string = pd.to_str().unwrap().to_string();
                             project_directory.set(pd_string.clone());
-                            if let Err(error) = checkNewProjectDirectory(&PathBuf::from(pd_string)) {
+                            if let Err(error) = check_new_project_directory(
+                                &PathBuf::from(pd_string),
+                            ) {
                                 project_directory_error.set(Some(error.to_string()));
                             } else {
                                 project_directory_error.set(None);
@@ -68,7 +70,7 @@ pub fn NewProject() -> Element {
                 class: "btn btn-primary w-full",
                 disabled: project_directory_error().is_some(),
                 onclick: move |_| {
-                    if let Err(error) = createProjectInDirectory(
+                    if let Err(error) = create_project_in_directory(
                         PathBuf::from(project_directory()),
                     ) {
                         eprintln!("Error creating project: {}", error);
