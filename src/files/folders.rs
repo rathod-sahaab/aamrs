@@ -66,4 +66,14 @@ mod tests {
         assert!(read_dir.is_ok());
         Ok(())
     }
+
+    #[test]
+    fn create_dir_in_non_existant_dir() -> Result<()> {
+        let dir = tempdir()?;
+        let dir_path = PathBuf::from(dir.path());
+        let _ = dir.close();
+        let sub_dir = create_empty_directory(&dir_path, "temporary".to_string());
+        assert!(sub_dir.is_err());
+        Ok(())
+    }
 }
