@@ -1,5 +1,5 @@
-use std::path::PathBuf;
-pub fn checkNewProjectDirectory(directory: &PathBuf) -> Result<(), String> {
+use std::path::Path;
+pub fn checkNewProjectDirectory(directory: &Path) -> Result<(), String> {
     if !directory.is_dir() {
         return Err("Not a directory.".to_string());
     }
