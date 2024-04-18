@@ -21,12 +21,13 @@ pub fn create_empty_directory(path: &Path, dir_name: String) -> Result<(), Strin
     }
     Ok(())
 }
+
 #[cfg(test)]
 mod tests {
-    use std::{fs, path::PathBuf};
-    use anyhow::Result;
-    use tempfile::tempdir;
     use super::{check_new_project_directory, create_empty_directory};
+    use anyhow::Result;
+    use std::{fs, path::PathBuf};
+    use tempfile::tempdir;
 
     #[test]
     fn empty_dir_is_valid() -> Result<()> {

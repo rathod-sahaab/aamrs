@@ -1,5 +1,5 @@
 pub use self::projects_list::*;
+mod dir_contents;
 mod new_entry;
 mod project;
-mod project_contents;
 mod projects_list;

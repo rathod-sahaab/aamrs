@@ -1,4 +1,4 @@
-use crate::ui::components::projects::project_contents::ProjectContents;
+use crate::ui::components::projects::dir_contents::DirContents;
 use dioxus::prelude::*;
 use dioxus_free_icons::{
     icons::{
@@ -43,7 +43,7 @@ pub fn Project(project: ProjectProps) -> Element {
                 }
             }
             div { class: format!("overflow-hidden {}", if is_expanded() { "" } else { "max-h-0" }),
-                ProjectContents { location: project_location()}
+                DirContents { directory: project_location()}
             }
             ul {
                 // context menu
