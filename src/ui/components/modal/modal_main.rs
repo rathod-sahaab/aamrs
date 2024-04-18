@@ -19,7 +19,7 @@ impl ModalState {
     pub fn close(&mut self) {
         self.open = false;
         self.heading.clear();
-        self.child = || rsx!(  );
+        self.child = || rsx!();
     }
     pub fn open(&mut self, heading: String, element: fn() -> Element) {
         self.open = true;

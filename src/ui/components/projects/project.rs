@@ -1,9 +1,12 @@
-use dioxus::prelude::*;
-use dioxus_free_icons::{icons::{
-    fi_icons::{FiChevronDown, FiChevronRight, FiTrash, FiFolderPlus},
-    io_icons::IoEllipsisVertical,
-}, Icon};
 use crate::ui::components::projects::project_contents::ProjectContents;
+use dioxus::prelude::*;
+use dioxus_free_icons::{
+    icons::{
+        fi_icons::{FiChevronDown, FiChevronRight, FiFolderPlus, FiTrash},
+        io_icons::IoEllipsisVertical,
+    },
+    Icon,
+};
 #[derive(Props, Clone, PartialEq)]
 pub struct ProjectProps {
     name: String,
@@ -13,13 +16,15 @@ pub fn Project(project: ProjectProps) -> Element {
     let mut is_expanded = use_signal(|| false);
     let mut context_menu_open = use_signal(|| false);
 
+    let project_location = use_signal(|| project.location);
+
     rsx!(
         li {
             class: "flex flex-col pl-4 pr-2 group relative",
             onclick: move |_| is_expanded.set(!is_expanded()),
             div {
                 class: "tooltip tooltip-right w-full text-left flex justify-between",
-                "data-tip": "{project.location}",
+                "data-tip": "{project_location}",
                 span {
                     if is_expanded() {
                         dioxus_free_icons::Icon { class: "inline", icon: FiChevronDown }
@@ -38,7 +43,7 @@ pub fn Project(project: ProjectProps) -> Element {
                 }
             }
             div { class: format!("overflow-hidden {}", if is_expanded() { "" } else { "max-h-0" }),
-                ProjectContents { location: &project.location.clone() }
+                ProjectContents { location: project_location()}
             }
             ul {
                 // context menu
@@ -51,6 +56,7 @@ pub fn Project(project: ProjectProps) -> Element {
                         onclick: move |event| {
                             event.stop_propagation();
                             context_menu_open.set(false);
+                            println!("location: {}", project_location());
                         },
                         Icon { icon: FiFolderPlus }
                         "Create folder"
@@ -59,6 +65,7 @@ pub fn Project(project: ProjectProps) -> Element {
                         onclick: move |event| {
                             event.stop_propagation();
                             context_menu_open.set(false);
+                            println!("location: {}", project_location());
                         },
                         Icon { icon: FiTrash }
                         "Remove Project"

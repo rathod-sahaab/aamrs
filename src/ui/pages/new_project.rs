@@ -1,12 +1,12 @@
-use std::path::PathBuf;
-use dioxus::prelude::*;
-use dioxus_free_icons::icons::io_icons::IoFolder;
-use dioxus_free_icons::Icon;
 use crate::files::folders::check_new_project_directory;
 use crate::files::setup::create_project_in_directory;
 use crate::resources::aamrs_state::AamrsProject;
 use crate::ui::components::modal::ModalState;
 use crate::STATE;
+use dioxus::prelude::*;
+use dioxus_free_icons::icons::fi_icons::FiFolder;
+use dioxus_free_icons::Icon;
+use std::path::PathBuf;
 fn updateState(project: AamrsProject) {
     (*STATE.write()).add_project(project);
     (*STATE.write()).save_state();
@@ -54,7 +54,7 @@ pub fn NewProject() -> Element {
                 if loading() {
                     span { class: "loading loading-spinner" }
                 } else {
-                    Icon { icon: IoFolder }
+                    Icon { icon: FiFolder }
                 }
                 if project_directory.to_string().is_empty() {
                     "Select Directory"
