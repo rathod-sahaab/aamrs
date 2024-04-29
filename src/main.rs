@@ -1,6 +1,6 @@
 #![allow(non_snake_case)]
 use dioxus::prelude::*;
-use log::LevelFilter;
+use tracing::Level;
 use resources::aamrs_config::AamrsConfig;
 use resources::aamrs_state::AamrsState;
 use ui::layouts::HomeLayout;
@@ -24,7 +24,7 @@ enum Route {
     Home {},
 }
 fn main() {
-    dioxus_logger::init(LevelFilter::Info).expect("failed to init logger");
+    dioxus_logger::init(Level::INFO).expect("failed to init logger");
     let cfg = dioxus::desktop::Config::new()
         .with_custom_head(
             r#"<link rel="stylesheet" href="public/tailwind.css">"#.to_string(),

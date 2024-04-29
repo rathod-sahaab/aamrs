@@ -27,6 +27,7 @@ impl AamrsState {
         save_resource_to_path(self, AamrsState::filepath())
     }
 }
+
 impl FilePath for AamrsState {
     fn filepath() -> std::path::PathBuf {
         if let Some(config_dir) = get_config_path() {
